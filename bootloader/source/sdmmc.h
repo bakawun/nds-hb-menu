@@ -3,14 +3,16 @@
 
 #include <nds/ndstypes.h>
 
-#define SDMMC_BASE	0x04004800
+#define DATA32_SUPPORT
+
+#define SDMMC_BASE  0x04004800
 
 
 #define REG_SDCMD       0x00
 #define REG_SDPORTSEL   0x02
 #define REG_SDCMDARG    0x04
 #define REG_SDCMDARG0   0x04
-#define REG_SDCMDARG1  	0x06
+#define REG_SDCMDARG1   0x06
 #define REG_SDSTOP      0x08
 #define REG_SDRESP      0x0c
 #define REG_SDBLKCOUNT  0x0a
@@ -29,7 +31,7 @@
 
 #define REG_SDIRMASK0   0x20
 #define REG_SDIRMASK1   0x22
-#define REG_SDCLKCTL    0x24 
+#define REG_SDCLKCTL    0x24
 
 #define REG_SDBLKLEN    0x26
 #define REG_SDOPT       0x28
@@ -120,12 +122,10 @@ typedef struct mmcdevice {
 } mmcdevice;
 
 void sdmmc_controller_init();
-void sdmmc_initirq();
 int sdmmc_cardinserted();
 
 int sdmmc_sdcard_init();
 int sdmmc_sdcard_readsectors(u32 sector_no, u32 numsectors, void *out);
-int sdmmc_sdcard_writesectors(u32 sector_no, u32 numsectors, void *in);
 
 extern u32 sdmmc_cid[];
 extern int sdmmc_curdevice;
@@ -133,13 +133,13 @@ extern int sdmmc_curdevice;
 //---------------------------------------------------------------------------------
 static inline u16 sdmmc_read16(u16 reg) {
 //---------------------------------------------------------------------------------
-	return *(vu16*)(SDMMC_BASE + reg);
+    return *(vu16*)(SDMMC_BASE + reg);
 }
 
 //---------------------------------------------------------------------------------
 static inline void sdmmc_write16(u16 reg, u16 val) {
 //---------------------------------------------------------------------------------
-	*(vu16*)(SDMMC_BASE + reg) = val;
+    *(vu16*)(SDMMC_BASE + reg) = val;
 }
 
 //---------------------------------------------------------------------------------
@@ -157,10 +157,10 @@ static inline void sdmmc_write32(u16 reg, u32 val) {
 //---------------------------------------------------------------------------------
 static inline void sdmmc_mask16(u16 reg, u16 clear, u16 set) {
 //---------------------------------------------------------------------------------
-	u16 val = sdmmc_read16(reg);
-	val &= ~clear;
-	val |= set;
-	sdmmc_write16(reg, val);
+    u16 val = sdmmc_read16(reg);
+    val &= ~clear;
+    val |= set;
+    sdmmc_write16(reg, val);
 }
 
 
